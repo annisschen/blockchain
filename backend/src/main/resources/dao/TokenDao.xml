@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blockchain.dao.TokenDao">
+    <!--    配置sql语句-->
+    <insert id = "addToken" parameterType="blockchain.entity.Token">
+        insert into `Token` (`tokenID`, `initOrg`, `recOrg`, `bankID`, `amount`, `paid`, `tokenStatus`, `transTimestamp`, `updateTimestamp`) values ('${token.tokenID}', '${token.initOrg}', '${token.recOrg}', '${token.bankID}', '${token.amount}', '${token.paid}', '${token.tokenStatus}', '${token.transTimestamp}', '${token.updateTimestamp}');
+    </insert>
+
+    <update id="updateTokenStatus" parameterType="java.lang.String">
+        UPDATE `Token` SET `tokenStatus`='${tokenStatus}', `updateTimestamp`='${updateTimestamp}' WHERE `tokenID`='${tokenID}';
+    </update>
+
+    <update id="updateToken" parameterType="blockchain.entity.Token">
+        UPDATE `Token` SET `initOrg`='${token.initOrg}', `recOrg`='${token.recOrg}' , `bankID`='${token.bankID}' , `amount`='${token.amount}' , `paid`='${token.paid}' , `tokenStatus`='${token.tokenStatus}' ,  `updateTimestamp`='${token.updateTimestamp}' WHERE `tokenID`='${token.tokenID}';
+    </update>
+
+    <select id="queryTokenByTokenID" resultType="blockchain.entity.Token" parameterType="java.lang.String">
+        SELECT * FROM `Token` WHERE `tokenID`='${tokenID}';
+    </select>
+
+    <select id="queryTotalAmount" resultType="Integer" parameterType="java.lang.String">
+        SELECT SUM(amount) FROM `Token` WHERE `initOrg`='${orgName}';
+    </select>
+
+    <select id="queryTotalPaid" resultType="Integer" parameterType="java.lang.String">
+        SELECT SUM(paid) FROM `Token` WHERE `initOrg`='${orgName}';
+    </select>
+
+    <select id="queryAllTokens" resultType="blockchain.entity.Token">
+        <!-- 具体的sql -->
+        SELECT * FROM `Token`;
+    </select>
+    <select id="queryTokenByFromOrg" resultType="blockchain.entity.Token">
+        <!-- 具体的sql -->
+        SELECT * FROM `Token` WHERE `initOrg`='${initOrg}';
+    </select>
+    <select id="queryTokenByRecOrg" resultType="blockchain.entity.Token">
+        <!-- 具体的sql -->
+        SELECT * FROM `Token` WHERE `recOrg`='${recOrg}';
+    </select>
+</mapper>

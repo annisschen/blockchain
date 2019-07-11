@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blockchain.dao.TransactionDao">
+    <!--    配置sql语句-->
+    <insert id = "sponsorTransaction" parameterType="blockchain.entity.Transaction">
+        insert into `Transaction` (`transID`, `tranHash`, `initiatorID`, `recipientID`, `amount`, `transType`, `transStatus`,`information`, `createTimestamp`, `updateTimestamp`, `initiatorSignature`, `recipientSignature`,`initiatorOrgName`,`recipientOrgName`,`weight`) values ('${transaction.transID}', '${transaction.tranHash}', '${transaction.initiatorID}', '${transaction.recipientID}', '${transaction.amount}', '${transaction.transType}', '${transaction.transStatus}','${transaction.information}', '${transaction.createTimestamp}', '${transaction.updateTimestamp}', '${transaction.initiatorSignature}', '${transaction.recipientSignature}','${transaction.initiatorOrgName}','${transaction.recipientOrgName}','${transaction.weight}');
+    </insert>
+
+    <update id="verifyTransaction" parameterType="java.lang.String">
+        UPDATE `Transaction` SET `recipientID`='${recipientID}', `recipientSignature`='${recipientSignature}', `updateTimestamp`='${updateTimestamp}' WHERE `transID`='${transID}';
+    </update>
+
+    <update id="updateTransactionStatus" parameterType="java.lang.String">
+        UPDATE `Transaction` SET `transStatus`='${transStatus}', `updateTimestamp`='${updateTimestamp}' WHERE `transID`='${transID}';
+    </update>
+
+    <select id="queryTransactionByTransID" resultType="blockchain.entity.Transaction" parameterType="java.lang.String">
+        SELECT * FROM `Transaction` WHERE `transID`='${transID}';
+    </select>
+    <select id="queryTransactionByTranHash" resultType="blockchain.entity.Transaction" parameterType="java.lang.String">
+        SELECT * FROM `Transaction` WHERE `tranHash`='${tranHash}';
+    </select>
+    <select id="queryTransactionByInitiatorID" resultType="blockchain.entity.Transaction">
+        <!-- 具体的sql -->
+        SELECT * FROM `Transaction` WHERE `initiatorID`='${initiatorID}';
+    </select>
+    <select id="queryTransactionByRecipientID" resultType="blockchain.entity.Transaction">
+        <!-- 具体的sql -->
+        SELECT * FROM `Transaction` WHERE `recipientID`='${recipientID}';
+    </select>
+    <select id="queryAllTransactions" resultType="blockchain.entity.Transaction">
+        <!-- 具体的sql -->
+        SELECT * FROM `Transaction`;
+    </select>
+    <select id="queryTranHashByTransID" resultType="java.lang.String">
+        <!-- 具体的sql -->
+        SELECT `tranHash` FROM `Transaction` WHERE `transID`='${transID}';
+    </select>
+<!--    <select id="queryTranByStransStatus" resultType="blockchain.entity.Transaction" parameterType="java.lang.String">-->
+<!--        SELECT * FROM `Transaction` WHERE `transStatus`='${transStatus}'-->
+<!--    </select>-->
+</mapper>

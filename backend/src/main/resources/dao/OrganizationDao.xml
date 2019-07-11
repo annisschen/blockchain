@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="blockchain.dao.OrganizationDao">
+<!--    配置sql语句-->
+    <insert id = "addOrganization" parameterType="blockchain.entity.Organization">
+        insert into `Organization` (`orgID`, `orgName`, `orgType`, `password`, `bankID`,`creditLimit`, `store`, `createTimestamp`, `updateTimestamp`) values ('${organization.orgID}', '${organization.orgName}', '${organization.orgType}', '${organization.password}', '${organization.bankID}', '${organization.creditLimit}',  '${organization.store}','${organization.createTimestamp}', '${organization.updateTimestamp}');
+    </insert>
+
+    <update id="updateOrganization" parameterType="blockchain.entity.Organization">
+        UPDATE `Organization` SET `orgName`='${organization.orgName}', `creditLimit`=${organization.creditLimit}, `createTimestamp`='${organization.createTimestamp}', `updateTimestamp`='${organization.updateTimestamp}' WHERE `orgID`='${organization.orgID}';
+    </update>
+
+    <select id="queryCreditLimitByOrgID" resultType="Integer" parameterType="java.lang.String">
+        SELECT `creditLimit` FROM `Organization` WHERE `orgID`='${orgID}';
+    </select>
+
+    <select id="queryBankID" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT `bankID` FROM `Organization` WHERE `orgID`='${orgID}';
+    </select>
+
+    <update id="setCreditLimitByOrgID">
+        UPDATE `Organization` SET `creditLimit`=${creditLimit}, `updateTimestamp`='${updateTimestamp}' WHERE `orgID`='${orgID}';
+    </update>
+
+    <select id="queryOrgnizationByOrgID" resultType="blockchain.entity.Organization" parameterType="java.lang.String">
+        SELECT * FROM `Organization` WHERE `orgID`='${orgID}';
+    </select>
+
+    <select id="queryOrgnizationByOrgName" resultType="blockchain.entity.Organization" parameterType="java.lang.String">
+        SELECT * FROM `Organization` WHERE `orgName`='${orgName}';
+    </select>
+
+    <select id="queryOrgIDByOrgName" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT `orgID` FROM `Organization` WHERE `orgName`='${orgName}';
+    </select>
+
+    <select id="checkPassword" resultType="java.lang.String"  parameterType="java.lang.String">
+        <!-- 具体的sql -->
+        SELECT `password` FROM `Organization` WHERE `orgID`='${orgID}';
+    </select>
+    <select id="checkType" resultType="java.lang.String"  parameterType="java.lang.String">
+        <!-- 具体的sql -->
+        SELECT `orgType` FROM `Organization` WHERE `orgID`='${orgID}';
+    </select>
+    <select id="queryAll" resultType="blockchain.entity.Organization">
+        <!-- 具体的sql -->
+        SELECT * FROM `Organization`;
+    </select>
+    <select id="queryOrgType" resultType="blockchain.entity.Organization" parameterType="java.lang.String">
+        SELECT * FROM `Organization` WHERE `orgType`='${orgType}';
+    </select>
+
+    <update id="setStore">
+        UPDATE `Organization` SET `store`=${store}, `updateTimestamp`='${updateTimestamp}' WHERE `orgID`='${orgID}';
+    </update>
+</mapper>

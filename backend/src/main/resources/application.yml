@@ -1,0 +1,31 @@
+#mysql
+spring:
+  datasource:
+    url: jdbc:mysql://119.23.78.199:3306/supply?useUnicode=true&characterEncoding=utf8
+    username: root
+    password: "123456"
+    driver-class-name: com.mysql.jdbc.Driver
+#mybatis
+#实体类所在的包
+mybatis:
+  type-aliases-package: blockchain.entity
+  mapper-locations:
+    - classpath:dao/*.xml
+
+#web3jdk配置
+encrypt-type: 0  # 0:standard, 1:guomi
+group-channel-connections-config:
+  all-channel-connections:
+    - group-id: 1  #group ID
+      connections-str:
+        - 120.77.242.207:20200  # node listen_ip:channel_listen_port
+  #                    - 127.0.0.1:20201
+
+channel-service:
+  group-id: 1 # The specified group to which the SDK connects
+  org-id: fisco # agency name
+
+user-key:
+  user-key: 3bed914595c159cbce70ec5fb6aff3d6797e0c5ee5a7a9224a21cae8932d84a4 # user key
+
+#mysql

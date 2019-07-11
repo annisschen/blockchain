@@ -1,0 +1,16 @@
+##############################################
+
+# mysql
+spring.datasource.url=jdbc:mysql://localhost:3306/supply?useUnicode=true&characterEncoding=utf8
+spring.datasource.username=root
+spring.datasource.password=7758258
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+
+#配置mybatis的xml 和实体类存放目录
+#实体类所在的包
+mybatis.type-aliases-package=blockchain.entity
+#mapper文件所在的包
+mybatis.mapper-locations=classpath:dao/*.xml
+debug=true
+
+
