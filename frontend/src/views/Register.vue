@@ -2,7 +2,7 @@
   <div class="register-view-container">
     <!--header-->
     <div class="head_back">
-      <Header />
+      <h1 class="head_title">{{Ptext}}</h1>
       <b-tabs align="right">
         <b-tab class="guide" title="登 录" active @click="goto_home()"></b-tab>
         <b-tab class="guide" title="注 册" active @click="goto_register()"></b-tab>
@@ -10,10 +10,16 @@
     </div>
 
     <!--form_body-->
-    <el-form label-width="80px" :model="form" class="from_back" :inline="true">
+    <el-form
+      :label-position="labelPosition"
+      label-width="80px"
+      :model="form"
+      class="from_back"
+      :inline="true"
+    >
       <h2 class="form_title">
-        注册新账号
-        <p class="form_sec_title">填表注册使用平台</p>
+        {{Ftext}}
+        <p class="form_sec_title">{{SecFtext}}</p>
       </h2>
 
       <el-form-item label="注册类型" class="content_text_register">
@@ -40,12 +46,12 @@
       <el-row :gutter="10" class="bottom_block">
         <el-col :span="8" :push="1">
           <h4 class="guide_title">
-            已有金融平台账号？
-            <router-link to="/" class="guide_sec_title">前往登陆</router-link>
+            {{Gtext}}
+            <router-link to="/" class="guide_sec_title">{{SecGtext}}</router-link>
           </h4>
         </el-col>
         <el-col :span="6" :offset="10" :push="2">
-          <el-button type="primary" @click="handleRegister">Sign Up</el-button>
+          <el-button type="primary" @click="submit_register">Sign Up</el-button>
         </el-col>
       </el-row>
     </el-form>
@@ -53,21 +59,22 @@
 </template>
 
 <script>
-import Header from '@/components/Header.vue'
 export default {
-  name: 'Register',
-  components: {
-    Header
-  },
   data() {
     return {
+      Ptext: '区块链——供应链平台',
+      Ftext: '注册新账号',
+      SecFtext: '填表注册使用平台',
+      Gtext: '已有金融平台账号？',
+      SecGtext: '前往登陆',
+      labelPosition: 'top',
       form: {
         orgName: '',
         password: '',
-        check_password: '',
+        check_password:'',
         orgType: ''
       },
-      type: '',
+      type:'',
     };
   },
   methods: {
@@ -77,53 +84,53 @@ export default {
     goto_home() {
       this.$router.push({ path: '/' });
     },
-    handleRegister() {
-      if (this.form.password !== this.form.check_password) {
+    submit_register(){
+      if(this.form.password !== this.form.check_password){
+            this.$message.error({
+                message: '注册失败！两次所输入的密码不同！'})
+      }
+      else if(this.form.password===''||this.form.orgName===''||this.form.orgType===''){
         this.$message.error({
-          message: '注册失败！两次所输入的密码不同！'
-        })
-      } else if (this.form.password === '' || this.form.orgName === '' || this.form.orgType === '') {
-        this.$message.error({
-          message: '注册失败！请输入相应信息'
-        })
-      } else {
+            message: '注册失败！请输入相应信息'
+            })
+      }
+      else{
+        console.log(this.form.orgType),
+        console.log(this.type),
+        this.get_orgType(),
+        console.log(this.form.orgType),
+        console.log(this.type),
         this.$axios({
-          method: 'post',
-          url: '/register',
-          data: {
-            orgName: this.form.orgName,
-            password: this.form.password,
-            orgType: this.type,
+        method: 'post',
+        url: '/register',
+        data: {
+          orgName: this.form.orgName,
+          password: this.form.password,
+          orgType: this.type,
           }
         }).then(res => {
-          if (res.data.success === true) {
-            this.$message('注册成功，即将前往登录界面');
-            this.$router.push({ path: '/' })
-          } else {
+        if (res.data.success === true) {
+           this.$message('注册成功，即将前往登录界面');
+           this.$router.push({ path: '/' })
+        }
+        else{
             this.$message.error({
-              message: res.data.message + '！用户名已存在，请使用其他用户名注册'
-            })
+            message: res.data.message + '！用户名已存在，请使用其他用户名注册'
+           })
           }
         })
       }
     },
-    get_orgType() {
-      switch (this.form.orgType) {
-        case '企业':
-          this.type = 'C'
-          break
-        case '银行':
-          this.type = 'B'
-          break
-        case '保险公司':
-          this.type = 'I'
-          break
-        default:
-          this.type = 'L'
-          break
-      }
+    get_orgType(){
+      if(this.form.orgType  == "企业")
+            this.type='C';
+      else if(this.form.orgType =='银行')
+            this.type='B';
+      else if(this.form.orgType =='保险公司')
+            this.type='I';
+      else this.type='L';
+           
     }
-
   }
 }
 </script>
@@ -133,7 +140,6 @@ export default {
   color: rgb(82, 99, 189);
   font-family: "微软雅黑";
 }
-
 .content_text_register {
   width: 40%;
   margin-left: 6%;

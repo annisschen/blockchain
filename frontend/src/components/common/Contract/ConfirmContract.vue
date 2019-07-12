@@ -29,7 +29,7 @@
             <el-button
               type="primary"
               size="mini"
-              :disabled="false"
+              :disabled="confirm"
               @click="handleConfirm(scope.row.transID)"
             >确认</el-button>
           </template>
@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       orderList: [],
-      orderIndex: [],
+      confirm:true,
       success: '',
       message: '',
     }
